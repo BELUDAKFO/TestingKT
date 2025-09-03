@@ -130,7 +130,7 @@ app.delete('/tasks/:id', (req, res) => {
     });
 });
 
-// Обработка несуществующих маршрутов (ИСПРАВЛЕННАЯ ВЕРСИЯ)
+// Обработка несуществующих маршрутов 
 app.use((req, res) => {
     res.status(404).json({
         error: 'Route not found'
