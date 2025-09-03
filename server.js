@@ -5,21 +5,21 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = 3000;
 
-// Middleware
+
 app.use(bodyParser.json());
 
-// In-memory storage
+
 let tasks = [];
 
-// Вспомогательная функция для поиска задачи по ID
+// функция для поиска задачи по ID
 const findTaskById = (id) => tasks.find(task => task.id === id);
 const findTaskIndexById = (id) => tasks.findIndex(task => task.id === id);
 
-// 1. Создание задачи - POST /tasks
+
 app.post('/tasks', (req, res) => {
     const { title, description, completed = false } = req.body;
 
-    // Валидация
+    
     if (!title) {
         return res.status(400).json({
             error: 'Title is required'
@@ -32,7 +32,7 @@ app.post('/tasks', (req, res) => {
         });
     }
 
-    // Создание новой задачи
+    
     const newTask = {
         id: uuidv4(),
         title,
@@ -50,12 +50,12 @@ app.post('/tasks', (req, res) => {
     });
 });
 
-// 2. Получение списка задач - GET /tasks
+
 app.get('/tasks', (req, res) => {
     const { completed } = req.query;
     let filteredTasks = tasks;
 
-    // Фильтрация по статусу completed
+    
     if (completed !== undefined) {
         const isCompleted = completed === 'true';
         filteredTasks = tasks.filter(task => task.completed === isCompleted);
@@ -67,7 +67,7 @@ app.get('/tasks', (req, res) => {
     });
 });
 
-// 3. Получение конкретной задачи - GET /tasks/{id}
+
 app.get('/tasks/:id', (req, res) => {
     const { id } = req.params;
     const task = findTaskById(id);
@@ -81,7 +81,7 @@ app.get('/tasks/:id', (req, res) => {
     res.json({ task });
 });
 
-// 4. Обновление задачи - PUT /tasks/{id}
+
 app.put('/tasks/:id', (req, res) => {
     const { id } = req.params;
     const { title, description, completed } = req.body;
@@ -94,7 +94,7 @@ app.put('/tasks/:id', (req, res) => {
         });
     }
 
-    // Обновление полей
+    
     const updatedTask = {
         ...tasks[taskIndex],
         ...(title !== undefined && { title }),
@@ -111,7 +111,7 @@ app.put('/tasks/:id', (req, res) => {
     });
 });
 
-// 5. Удаление задачи - DELETE /tasks/{id}
+
 app.delete('/tasks/:id', (req, res) => {
     const { id } = req.params;
     const taskIndex = findTaskIndexById(id);
@@ -130,14 +130,14 @@ app.delete('/tasks/:id', (req, res) => {
     });
 });
 
-// Обработка несуществующих маршрутов 
+
 app.use((req, res) => {
     res.status(404).json({
         error: 'Route not found'
     });
 });
 
-// Запуск сервера
+// Запуск
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     console.log(`API documentation:`);
