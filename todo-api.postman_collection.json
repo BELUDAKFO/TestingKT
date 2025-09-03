@@ -1,0 +1,160 @@
+{
+	"info": {
+		"name": "Todo API JS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST /tasks - Создание товара 1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Мужская обувь 38 размер\",\n    \"description\": \"Черные кожаные туфли\",\n    \"completed\": false\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/tasks",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["tasks"]
+				}
+			},
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Сохраняем ID созданной задачи",
+							"if (pm.response.code === 201) {",
+							"    var responseData = pm.response.json();",
+							"    pm.collectionVariables.set(\"task_id\", responseData.task.id);",
+							"    console.log(\"Task ID saved:\", responseData.task.id);",
+							"}"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "POST /tasks - Создание товара 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Женская сумка\",\n    \"description\": \"Кожаная сумка черного цвета\",\n    \"completed\": false\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/tasks",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["tasks"]
+				}
+			}
+		},
+		{
+			"name": "POST /tasks - Создание товара 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Детская куртка\",\n    \"description\": \"Зимняя куртка синего цвета\",\n    \"completed\": false\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/tasks",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["tasks"]
+				}
+			}
+		},
+		{
+			"name": "GET /tasks - Все товары",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/tasks",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["tasks"]
+				}
+			}
+		},
+		{
+			"name": "GET /tasks/:id - Найти по ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/tasks/{{task_id}}",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["tasks", "{{task_id}}"]
+				}
+			}
+		},
+		{
+			"name": "PUT /tasks/:id - Обновить товар",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"completed\": true,\n    \"description\": \"ОБНОВЛЕНО: Мужская обувь 38 размер черный (остался 1 шт)\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/tasks/{{task_id}}",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["tasks", "{{task_id}}"]
+				}
+			}
+		},
+		{
+			"name": "DELETE /tasks/:id - Удалить товар",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/tasks/{{task_id}}",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["tasks", "{{task_id}}"]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "task_id",
+			"value": ""
+		}
+	]
+}
